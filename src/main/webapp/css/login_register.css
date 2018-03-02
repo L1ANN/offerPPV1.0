@@ -1,0 +1,18 @@
+.user_type_box{ width: 45%; padding: 2px 5px; border: rgba(100, 149, 237, 0.5) 1px solid; }
+/*.user_type_box div.radio{ margin-left: 15%; margin-right: 15%; }*/
+.user_type_box div.radio{ width: 100px; margin-left: auto; margin-right: auto; }
+/*.user_type_box div.radio{ margin: auto; }*/
+div.container div.type_choose::after{ content: ""; clear: both; display: block; }
+div.type_choose { margin-bottom: 15px; }
+
+
+div.container form{ margin-top: 100px; margin-bottom: 100px; background: #fff; padding: 10%; }
+div.container form h1{ font-weight: 300; text-align: center; margin-top: 0; margin-bottom: 32px; }
+
+
+div.container div.checkbox { margin-bottom: 20px; }
+div.container div.checkbox::after{ content: ""; clear: both; display: block; }
+/*form > button:last-of-type { margin-top: 40px; }*/
+form a:last-of-type { margin-top: 40px; }
+
+.form-group{ clear: both; }

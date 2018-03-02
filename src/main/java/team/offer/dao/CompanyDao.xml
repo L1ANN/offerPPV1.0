@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.offer.dao.CompanyDao">
+    <!--companyMap-->
+    <!--<resultMap id="companyMap" type="team.offer.entity.Company">-->
+        <!--<id property="pkComId" column="pk_com_id"/>-->
+        <!--<result property="comNo" column="com_no"/>-->
+        <!--<result property="comEmail" column="com_email"/>-->
+        <!--<result property="comPassword" column="com_password"/>-->
+        <!--<result property="comName" column="com_name"/>-->
+        <!--<result property="comIndustry" column="com_industry"/>-->
+        <!--<result property="comLocation" column="com_location"/>-->
+        <!--<result property="comSize" column="com_size"/>-->
+        <!--<result property="comLegalperson" column="com_legalperson"/>-->
+        <!--<result property="comIntro" column="com_intro"/>-->
+        <!--<result property="comContact" column="com_contact"/>-->
+        <!--<result property="comPostlimit" column="com_postlimit"/>-->
+        <!--<result property="comPass" column="com_pass"/>-->
+    <!--</resultMap>-->
+
+
+    <sql id="companyCols">
+        pk_com_id,
+        com_no,
+        com_email,
+        com_password,
+        com_name,
+        com_industry,
+        com_location,
+        com_size,
+        com_legalperson,
+        com_intro,
+        com_contact,
+        com_postlimit,
+        com_pass
+    </sql>
+
+
+
+    <!--增加新公司-->
+    <insert id="insertCompany" parameterType="company">
+        insert into company(
+        <include refid="companyCols"/>
+        )
+        values(
+        #{pkComId},
+        #{comNo},
+        #{comEmail},
+        #{comPassword},
+        #{comName},
+        #{comIndustry},
+        #{comLocation},
+        #{comSize},
+        #{comLegalperson},
+        #{comIntro},
+        #{comContact},
+        10,
+        FALSE
+        );
+    </insert>
+
+    <!--根据id获取单个公司-->
+    <select id="getCompanyById" parameterType="int"
+            resultType="team.offer.entity.Company">
+        select
+        <include refid="companyCols"/>
+        from company
+        where pk_com_id=#{pkComId}
+    </select>
+
+    <!--根据email获取单个公司-->
+    <select id="getCompanyByEmail" parameterType="string"
+            resultType="team.offer.entity.Company">
+        select
+        <include refid="companyCols"/>
+        from company
+        where com_email=#{comEmail}
+    </select>
+
+    <!--获取所有公司列表-->
+    <select id="getCompanyList" resultType="team.offer.entity.Company">
+        SELECT
+        <include refid="companyCols"/>
+        FROM company
+    </select>
+
+    <!--修改公司密码-->
+    <update id="updateCompany" parameterType="company">
+        UPDATE
+        SET com_pass=#{comPass}
+        WHERE pk_com_id=#{pkComId}
+    </update>
+</mapper>

@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd ">
+
+    <!--1.开启springmvc注解模式
+    a.自动注册DefaultAnnotationHandlerMapping处理器映射器和AnnotationMethodHandlerAdapter处理器适配器
+    b.默认提供一系列的功能：数据绑定，数字和日期的format@NumberFormat,@DateTimeFormat
+    c.xml,json的默认读写支持
+    -->
+    <mvc:annotation-driven/>
+
+    <!--2.静态资源默认servlet配置
+    a.加入对静态资源处理：js,gif,png
+    b.允许使用"/"做整体映射
+    -->
+    <mvc:default-servlet-handler/>
+
+    <!--
+    3.配置JSP,显示ViewResolver
+    要求将jstl的包加到classpath
+    prefix：代表请求url的前缀
+    suffix：代表请求url的后缀
+    设置了这两个属性后我们在Controller中进行代码开发时返回的ModelAndView对象设置的页面路径值就不用带前缀名和后缀名了
+    -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!--4.使用spring组件扫描，一次性配置此包下所有Handler-->
+    <context:component-scan base-package="team.offer.web"/>
+</beans>

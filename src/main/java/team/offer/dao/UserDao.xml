@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.offer.dao.UserDao">
+
+    <!--根据id查询用户
+    parameterType:输入查询条件
+    resultType:查询结果
+    -->
+    <select id="queryUserById" parameterType="int" resultType="User">
+        select pk_user_id,user_email,user_password,user_name,user_phone,user_age from user
+        where pk_user_id=#{id}
+    </select>
+
+    <!--根据邮箱获取用户信息-->
+    <select id="queryUserByEmail" parameterType="String" resultType="User">
+        select pk_user_id,user_email,user_password,user_name,user_phone,user_age from user
+        where user_email=#{email}
+    </select>
+
+    <!--增加一条用户记录-->
+    <insert id="insertUser" parameterType="User">
+        insert into user(user_email,user_password)
+        values(#{userEmail},#{userPassword})
+    </insert>
+
+    <!--更新用户上线时间-->
+    <update id="updateTime">
+        update user
+        set user_last_login=#{time}
+        where user_email=#{email}
+    </update>
+
+    <!--根据邮箱和密码查询用户-->
+    <select id="queryUserByEmailAndPassword" resultType="User">
+        select * from user
+        where user_email=#{email} and user_password=#{password}
+    </select>
+
+    <!--根据邮箱修改用户密码-->
+    <update id="updateUserPasswordByEmail">
+        update user set
+        user_password=#{password}
+        where user_email=#{email}
+    </update>
+
+    <!--根据id查询用户收藏的职位-->
+    <select id="queryCollectionById" parameterType="int" resultType="Position">
+        select * from position
+        where pk_position_id in (select position_id from collection where user_id=#{id})
+    </select>
+
+    <!--根据职位id来删除用户收藏的职位-->
+    <delete id="deleteCollectionById">
+        delete from collection
+        where user_id=#{uid} and position_id=#{pid}
+    </delete>
+
+    <!--根据用户id来查询新投递的职位-->
+    <select id="queryNewApplicationById" parameterType="int" resultType="Position">
+        select * from POSITION
+        where pk_position_id in (select position_id from application where user_id=#{id} and application_status='-1')
+    </select>
+
+    <!--根据用户id来查询已查阅的职位-->
+    <select id="queryConsultedApplicationById" parameterType="int" resultType="Position">
+        select * from POSITION
+        where pk_position_id in (select position_id from application where user_id=#{id} and application_status='0')
+    </select>
+
+    <!--根据用户id来查询待安排的职位-->
+    <select id="queryArrangedApplicationById" parameterType="int" resultType="Position">
+        select * from POSITION
+        where pk_position_id in (select position_id from application where user_id=#{id} and application_status='1')
+    </select>
+
+    <!--根据用户id和职位id查询申请id-->
+    <select id="queryApplicationIdByUidAndPid" resultType="Integer">
+        select pk_apply_id from application
+        where user_id=#{uid} and position_id=#{pid}
+    </select>
+
+    <!--增加一条申请表记录-->
+    <insert id="insertApplication">
+        insert into application(user_id,position_id,application_status)
+        values(#{uid},#{pid},'-1')
+    </insert>
+
+    <!--根据用户id和职位id查询收藏id-->
+    <select id="queryCollectionIdByUidAndPid" resultType="Integer">
+        select pk_collection_id from collection
+        where user_id=#{uid} and position_id=#{pid}
+    </select>
+
+    <!--增加一条收藏表记录-->
+    <insert id="insertCollection">
+        insert into collection(user_id,position_id)
+        values(#{uid},#{pid})
+    </insert>
+
+
+
+</mapper>
